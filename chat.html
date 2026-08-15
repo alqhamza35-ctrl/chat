@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دردشة فورية</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>💬 المحادثات</h2>
+        <button class="btn-icon" id="toggleSidebar" title="إخفاء القائمة">☰</button>
+      </div>
+
+      <div class="sidebar-user" id="sidebarUser">
+        <div class="user-avatar" id="userAvatar"></div>
+        <div class="user-info">
+          <span id="currentUsername"></span>
+          <span id="currentRole" class="role-badge"></span>
+        </div>
+        <button class="btn btn-danger btn-sm" id="logoutBtn" style="margin-right:auto">تسجيل خروج</button>
+      </div>
+
+      <div class="sidebar-nav">
+        <button class="nav-btn active" data-tab="groups" id="navGroups">📋 المجموعات</button>
+        <button class="nav-btn" data-tab="comments" id="navComments">💬 التعليقات العامة</button>
+        <button class="nav-btn" data-tab="admin" id="navAdmin" style="display:none;">⚙️ لوحة التحكم</button>
+      </div>
+
+      <div class="sidebar-content">
+        <div id="groupsPanel" class="panel active">
+          <div class="panel-header">
+            <h3>المجموعات</h3>
+            <button class="btn btn-sm btn-primary" id="createGroupBtn">+ جديدة</button>
+          </div>
+          <div id="groupsList" class="groups-list"></div>
+        </div>
+
+        <div id="commentsPanel" class="panel">
+          <div class="panel-header">
+            <h3>التعليقات العامة</h3>
+          </div>
+          <div id="commentsList" class="comments-list"></div>
+          <div class="comment-input-area">
+            <input type="text" id="commentInput" placeholder="اكتب تعليقاً..." maxlength="500">
+            <button class="btn btn-sm btn-primary" id="sendCommentBtn">إرسال</button>
+          </div>
+        </div>
+
+        <div id="adminPanel" class="panel">
+          <div class="panel-header">
+            <h3>لوحة التحكم</h3>
+          </div>
+          <div id="adminStats" class="admin-stats"></div>
+          <div id="adminUsersList" class="admin-users-list"></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="chat-main">
+      <div class="chat-header" id="chatHeader">
+        <button class="btn-icon mobile-menu" id="mobileMenu">☰</button>
+        <div class="chat-header-info">
+          <h3 id="chatTitle">اختر مجموعة للبدء</h3>
+          <span id="chatSubtitle" class="typing-indicator"></span>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="welcome-screen" id="welcomeScreen">
+          <div class="welcome-icon">💬</div>
+          <h2>مرحباً بك في الدردشة الفورية</h2>
+          <p>اختر مجموعة من القائمة الجانبية للبدء في المحادثة</p>
+        </div>
+      </div>
+
+      <div class="chat-input-area" id="chatInputArea" style="display:none;">
+        <div class="voice-recorder" id="voiceRecorder" style="display:none;">
+          <div class="recording-indicator">
+            <span class="pulse"></span>
+            <span id="recordingTime">00:00</span>
+          </div>
+          <button class="btn btn-danger" id="stopRecordingBtn">⏹ إيقاف</button>
+          <button class="btn btn-secondary" id="cancelRecordingBtn">✖ إلغاء</button>
+        </div>
+
+        <div class="input-row" id="inputRow">
+          <button class="btn-icon" id="voiceBtn" title="رسالة صوتية">🎤</button>
+          <input type="text" id="messageInput" placeholder="اكتب رسالتك هنا..." maxlength="2000">
+          <button class="btn btn-primary" id="sendBtn">إرسال</button>
+        </div>
+
+        <div class="voice-preview" id="voicePreview" style="display:none;">
+          <audio id="voicePlayback" controls></audio>
+          <div class="voice-actions">
+            <button class="btn btn-primary btn-sm" id="sendVoiceBtn">إرسال الصوت</button>
+            <button class="btn btn-secondary btn-sm" id="cancelVoiceBtn">إلغاء</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal" id="groupModal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>إنشاء مجموعة جديدة</h3>
+        <button class="btn-icon modal-close" id="closeGroupModal">✖</button>
+      </div>
+      <form id="createGroupForm">
+        <div class="form-group">
+          <label for="groupName">اسم المجموعة</label>
+          <input type="text" id="groupName" placeholder="اسم المجموعة" required>
+        </div>
+        <div class="form-group">
+          <label for="groupDesc">الوصف (اختياري)</label>
+          <input type="text" id="groupDesc" placeholder="وصف المجموعة">
+        </div>
+        <button type="submit" class="btn btn-primary">إنشاء</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>
